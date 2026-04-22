@@ -1,0 +1,366 @@
+date,value,classification
+2023-01-01,23,Extreme Fear
+2023-01-02,19,Extreme Fear
+2023-01-03,25,Fear
+2023-01-04,31,Fear
+2023-01-05,19,Extreme Fear
+2023-01-06,19,Extreme Fear
+2023-01-07,32,Fear
+2023-01-08,27,Fear
+2023-01-09,18,Extreme Fear
+2023-01-10,26,Fear
+2023-01-11,19,Extreme Fear
+2023-01-12,19,Extreme Fear
+2023-01-13,24,Extreme Fear
+2023-01-14,9,Extreme Fear
+2023-01-15,11,Extreme Fear
+2023-01-16,19,Extreme Fear
+2023-01-17,16,Extreme Fear
+2023-01-18,26,Fear
+2023-01-19,18,Extreme Fear
+2023-01-20,14,Extreme Fear
+2023-01-21,35,Fear
+2023-01-22,23,Extreme Fear
+2023-01-23,26,Fear
+2023-01-24,15,Extreme Fear
+2023-01-25,22,Extreme Fear
+2023-01-26,27,Fear
+2023-01-27,18,Extreme Fear
+2023-01-28,29,Fear
+2023-01-29,22,Extreme Fear
+2023-01-30,25,Fear
+2023-01-31,23,Extreme Fear
+2023-02-01,40,Fear
+2023-02-02,28,Fear
+2023-02-03,20,Extreme Fear
+2023-02-04,34,Fear
+2023-02-05,20,Extreme Fear
+2023-02-06,30,Fear
+2023-02-07,15,Extreme Fear
+2023-02-08,20,Extreme Fear
+2023-02-09,31,Fear
+2023-02-10,35,Fear
+2023-02-11,31,Fear
+2023-02-12,29,Fear
+2023-02-13,28,Fear
+2023-02-14,20,Extreme Fear
+2023-02-15,26,Fear
+2023-02-16,28,Fear
+2023-02-17,39,Fear
+2023-02-18,34,Fear
+2023-02-19,20,Extreme Fear
+2023-02-20,34,Fear
+2023-02-21,30,Fear
+2023-02-22,28,Fear
+2023-02-23,37,Fear
+2023-02-24,40,Fear
+2023-02-25,40,Fear
+2023-02-26,28,Fear
+2023-02-27,32,Fear
+2023-02-28,37,Fear
+2023-03-01,41,Fear
+2023-03-02,31,Fear
+2023-03-03,34,Fear
+2023-03-04,28,Fear
+2023-03-05,28,Fear
+2023-03-06,42,Fear
+2023-03-07,47,Neutral
+2023-03-08,37,Fear
+2023-03-09,45,Neutral
+2023-03-10,41,Fear
+2023-03-11,35,Fear
+2023-03-12,42,Fear
+2023-03-13,51,Neutral
+2023-03-14,40,Fear
+2023-03-15,52,Neutral
+2023-03-16,23,Extreme Fear
+2023-03-17,48,Neutral
+2023-03-18,43,Fear
+2023-03-19,41,Fear
+2023-03-20,44,Fear
+2023-03-21,30,Fear
+2023-03-22,43,Fear
+2023-03-23,48,Neutral
+2023-03-24,56,Greed
+2023-03-25,43,Fear
+2023-03-26,41,Fear
+2023-03-27,44,Fear
+2023-03-28,54,Neutral
+2023-03-29,51,Neutral
+2023-03-30,45,Neutral
+2023-03-31,53,Neutral
+2023-04-01,50,Neutral
+2023-04-02,57,Greed
+2023-04-03,46,Neutral
+2023-04-04,49,Neutral
+2023-04-05,49,Neutral
+2023-04-06,42,Fear
+2023-04-07,55,Greed
+2023-04-08,55,Greed
+2023-04-09,54,Neutral
+2023-04-10,53,Neutral
+2023-04-11,45,Neutral
+2023-04-12,52,Neutral
+2023-04-13,53,Neutral
+2023-04-14,51,Neutral
+2023-04-15,56,Greed
+2023-04-16,60,Greed
+2023-04-17,71,Greed
+2023-04-18,60,Greed
+2023-04-19,61,Greed
+2023-04-20,59,Greed
+2023-04-21,46,Neutral
+2023-04-22,60,Greed
+2023-04-23,61,Greed
+2023-04-24,79,Extreme Greed
+2023-04-25,61,Greed
+2023-04-26,65,Greed
+2023-04-27,63,Greed
+2023-04-28,55,Greed
+2023-04-29,72,Greed
+2023-04-30,70,Greed
+2023-05-01,70,Greed
+2023-05-02,58,Greed
+2023-05-03,75,Extreme Greed
+2023-05-04,55,Greed
+2023-05-05,70,Greed
+2023-05-06,81,Extreme Greed
+2023-05-07,59,Greed
+2023-05-08,62,Greed
+2023-05-09,67,Greed
+2023-05-10,63,Greed
+2023-05-11,56,Greed
+2023-05-12,68,Greed
+2023-05-13,60,Greed
+2023-05-14,71,Greed
+2023-05-15,62,Greed
+2023-05-16,79,Extreme Greed
+2023-05-17,63,Greed
+2023-05-18,66,Greed
+2023-05-19,75,Extreme Greed
+2023-05-20,61,Greed
+2023-05-21,71,Greed
+2023-05-22,79,Extreme Greed
+2023-05-23,59,Greed
+2023-05-24,72,Greed
+2023-05-25,72,Greed
+2023-05-26,76,Extreme Greed
+2023-05-27,62,Greed
+2023-05-28,62,Greed
+2023-05-29,75,Extreme Greed
+2023-05-30,74,Greed
+2023-05-31,74,Greed
+2023-06-01,75,Extreme Greed
+2023-06-02,68,Greed
+2023-06-03,74,Greed
+2023-06-04,75,Extreme Greed
+2023-06-05,68,Greed
+2023-06-06,87,Extreme Greed
+2023-06-07,77,Extreme Greed
+2023-06-08,66,Greed
+2023-06-09,79,Extreme Greed
+2023-06-10,68,Greed
+2023-06-11,80,Extreme Greed
+2023-06-12,83,Extreme Greed
+2023-06-13,70,Greed
+2023-06-14,82,Extreme Greed
+2023-06-15,79,Extreme Greed
+2023-06-16,82,Extreme Greed
+2023-06-17,90,Extreme Greed
+2023-06-18,75,Extreme Greed
+2023-06-19,71,Greed
+2023-06-20,71,Greed
+2023-06-21,72,Greed
+2023-06-22,77,Extreme Greed
+2023-06-23,80,Extreme Greed
+2023-06-24,80,Extreme Greed
+2023-06-25,84,Extreme Greed
+2023-06-26,79,Extreme Greed
+2023-06-27,89,Extreme Greed
+2023-06-28,77,Extreme Greed
+2023-06-29,97,Extreme Greed
+2023-06-30,84,Extreme Greed
+2023-07-01,73,Greed
+2023-07-02,72,Greed
+2023-07-03,82,Extreme Greed
+2023-07-04,77,Extreme Greed
+2023-07-05,83,Extreme Greed
+2023-07-06,81,Extreme Greed
+2023-07-07,76,Extreme Greed
+2023-07-08,71,Greed
+2023-07-09,66,Greed
+2023-07-10,73,Greed
+2023-07-11,81,Extreme Greed
+2023-07-12,76,Extreme Greed
+2023-07-13,66,Greed
+2023-07-14,75,Extreme Greed
+2023-07-15,76,Extreme Greed
+2023-07-16,67,Greed
+2023-07-17,74,Greed
+2023-07-18,73,Greed
+2023-07-19,64,Greed
+2023-07-20,74,Greed
+2023-07-21,75,Extreme Greed
+2023-07-22,78,Extreme Greed
+2023-07-23,78,Extreme Greed
+2023-07-24,60,Greed
+2023-07-25,63,Greed
+2023-07-26,73,Greed
+2023-07-27,72,Greed
+2023-07-28,72,Greed
+2023-07-29,95,Extreme Greed
+2023-07-30,71,Greed
+2023-07-31,75,Extreme Greed
+2023-08-01,73,Greed
+2023-08-02,71,Greed
+2023-08-03,64,Greed
+2023-08-04,71,Greed
+2023-08-05,60,Greed
+2023-08-06,63,Greed
+2023-08-07,61,Greed
+2023-08-08,64,Greed
+2023-08-09,79,Extreme Greed
+2023-08-10,50,Neutral
+2023-08-11,67,Greed
+2023-08-12,51,Neutral
+2023-08-13,58,Greed
+2023-08-14,69,Greed
+2023-08-15,61,Greed
+2023-08-16,53,Neutral
+2023-08-17,55,Greed
+2023-08-18,64,Greed
+2023-08-19,54,Neutral
+2023-08-20,60,Greed
+2023-08-21,59,Greed
+2023-08-22,53,Neutral
+2023-08-23,72,Greed
+2023-08-24,61,Greed
+2023-08-25,42,Fear
+2023-08-26,57,Greed
+2023-08-27,51,Neutral
+2023-08-28,61,Greed
+2023-08-29,49,Neutral
+2023-08-30,54,Neutral
+2023-08-31,58,Greed
+2023-09-01,61,Greed
+2023-09-02,47,Neutral
+2023-09-03,53,Neutral
+2023-09-04,52,Neutral
+2023-09-05,52,Neutral
+2023-09-06,69,Greed
+2023-09-07,60,Greed
+2023-09-08,48,Neutral
+2023-09-09,64,Greed
+2023-09-10,73,Greed
+2023-09-11,65,Greed
+2023-09-12,48,Neutral
+2023-09-13,55,Greed
+2023-09-14,68,Greed
+2023-09-15,54,Neutral
+2023-09-16,63,Greed
+2023-09-17,65,Greed
+2023-09-18,54,Neutral
+2023-09-19,60,Greed
+2023-09-20,38,Fear
+2023-09-21,54,Neutral
+2023-09-22,60,Greed
+2023-09-23,53,Neutral
+2023-09-24,74,Greed
+2023-09-25,53,Neutral
+2023-09-26,60,Greed
+2023-09-27,64,Greed
+2023-09-28,74,Greed
+2023-09-29,54,Neutral
+2023-09-30,72,Greed
+2023-10-01,65,Greed
+2023-10-02,58,Greed
+2023-10-03,69,Greed
+2023-10-04,67,Greed
+2023-10-05,62,Greed
+2023-10-06,67,Greed
+2023-10-07,64,Greed
+2023-10-08,68,Greed
+2023-10-09,72,Greed
+2023-10-10,79,Extreme Greed
+2023-10-11,59,Greed
+2023-10-12,83,Extreme Greed
+2023-10-13,55,Greed
+2023-10-14,68,Greed
+2023-10-15,73,Greed
+2023-10-16,72,Greed
+2023-10-17,66,Greed
+2023-10-18,69,Greed
+2023-10-19,67,Greed
+2023-10-20,67,Greed
+2023-10-21,77,Extreme Greed
+2023-10-22,74,Greed
+2023-10-23,67,Greed
+2023-10-24,79,Extreme Greed
+2023-10-25,75,Extreme Greed
+2023-10-26,79,Extreme Greed
+2023-10-27,78,Extreme Greed
+2023-10-28,68,Greed
+2023-10-29,70,Greed
+2023-10-30,79,Extreme Greed
+2023-10-31,79,Extreme Greed
+2023-11-01,74,Greed
+2023-11-02,75,Extreme Greed
+2023-11-03,82,Extreme Greed
+2023-11-04,69,Greed
+2023-11-05,76,Extreme Greed
+2023-11-06,70,Greed
+2023-11-07,69,Greed
+2023-11-08,78,Extreme Greed
+2023-11-09,76,Extreme Greed
+2023-11-10,75,Extreme Greed
+2023-11-11,78,Extreme Greed
+2023-11-12,68,Greed
+2023-11-13,72,Greed
+2023-11-14,65,Greed
+2023-11-15,69,Greed
+2023-11-16,65,Greed
+2023-11-17,66,Greed
+2023-11-18,69,Greed
+2023-11-19,58,Greed
+2023-11-20,78,Extreme Greed
+2023-11-21,56,Greed
+2023-11-22,54,Neutral
+2023-11-23,70,Greed
+2023-11-24,67,Greed
+2023-11-25,65,Greed
+2023-11-26,64,Greed
+2023-11-27,59,Greed
+2023-11-28,52,Neutral
+2023-11-29,59,Greed
+2023-11-30,53,Neutral
+2023-12-01,64,Greed
+2023-12-02,55,Greed
+2023-12-03,50,Neutral
+2023-12-04,53,Neutral
+2023-12-05,58,Greed
+2023-12-06,50,Neutral
+2023-12-07,48,Neutral
+2023-12-08,55,Greed
+2023-12-09,54,Neutral
+2023-12-10,48,Neutral
+2023-12-11,48,Neutral
+2023-12-12,52,Neutral
+2023-12-13,40,Fear
+2023-12-14,40,Fear
+2023-12-15,44,Fear
+2023-12-16,47,Neutral
+2023-12-17,50,Neutral
+2023-12-18,57,Greed
+2023-12-19,53,Neutral
+2023-12-20,45,Neutral
+2023-12-21,45,Neutral
+2023-12-22,38,Fear
+2023-12-23,44,Fear
+2023-12-24,42,Fear
+2023-12-25,45,Neutral
+2023-12-26,37,Fear
+2023-12-27,45,Neutral
+2023-12-28,52,Neutral
+2023-12-29,40,Fear
+2023-12-30,43,Fear
+2023-12-31,44,Fear

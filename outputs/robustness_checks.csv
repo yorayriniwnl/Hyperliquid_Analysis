@@ -1,0 +1,6 @@
+finding,group_a,group_b,n_a,n_b,effect_value,pvalue,test,note
+Greed vs Fear account-day PnL,Greed account-days,Fear account-days,28,21,-46155.1626165,0.007859243842177496,Mann-Whitney U,Interpret carefully: the matched set includes 4 greed dates but only 1 fear date.
+Paired greed-fear PnL by account,Greed median PnL,Fear median PnL,20,20,-26913.241344500006,0.04405403137207031,Wilcoxon signed-rank,Uses only accounts active in both fear and greed windows.
+Paired greed-fear crossed share by account,Greed crossed share,Fear crossed share,20,20,0.0,0.6705245971679688,Wilcoxon signed-rank,Positive values mean more aggressive crossing on greed days.
+Patient vs aggressive executors,Patient executors,Aggressive takers,11,10,124216.61339434802,0.4180519085356006,Mann-Whitney U,Split on median account-level crossed share.
+Greed small-ticket vs large-ticket days,Small-ticket greed days,Large-ticket greed days,14,14,33642.598371500004,0.2589772972432217,Mann-Whitney U,Threshold is the median greed-day ticket size.
