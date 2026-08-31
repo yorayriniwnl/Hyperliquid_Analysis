@@ -18,6 +18,9 @@ ROOT = Path(__file__).resolve().parent
 OUTPUTS_DIR = ROOT / "outputs"
 CHARTS_DIR = ROOT / "charts"
 ANALYSIS_SCRIPT = ROOT / "analysis.py"
+TOKENS = json.loads((ROOT / "design" / "yor-tokens.json").read_text(encoding="utf-8"))
+YOR_COLORS = TOKENS["color"]
+SEMANTIC_COLORS = TOKENS["semantic"]
 
 SENTIMENT_ORDER = [
     "Extreme Fear",
@@ -28,18 +31,18 @@ SENTIMENT_ORDER = [
 ]
 
 SENTIMENT_COLORS = {
-    "Extreme Fear": "#C95A4D",
-    "Fear": "#C67C3D",
-    "Neutral": "#8A8E91",
-    "Greed": "#1D6B67",
-    "Extreme Greed": "#0E5D55",
+    "Extreme Fear": YOR_COLORS["deepCrimson"],
+    "Fear": YOR_COLORS["crimson"],
+    "Neutral": YOR_COLORS["muted"],
+    "Greed": SEMANTIC_COLORS["positive"],
+    "Extreme Greed": YOR_COLORS["signal"],
 }
 
 ARCHETYPE_COLORS = {
-    "Patient Position Builders": "#1D6B67",
-    "Aggressive Takers": "#C95A4D",
-    "Selective Rotators": "#506D9A",
-    "Impulse Scalpers": "#C67C3D",
+    "Patient Position Builders": SEMANTIC_COLORS["positive"],
+    "Aggressive Takers": YOR_COLORS["crimson"],
+    "Selective Rotators": SEMANTIC_COLORS["blueprint"],
+    "Impulse Scalpers": SEMANTIC_COLORS["warning"],
 }
 
 CHART_LABELS = {
@@ -71,10 +74,10 @@ REQUIRED_OUTPUTS = [
     "ui_metrics.json",
 ]
 
-PLOTLY_AXIS = "rgba(24, 36, 45, 0.12)"
-PLOTLY_GRID = "rgba(24, 36, 45, 0.08)"
+PLOTLY_AXIS = "rgba(232, 75, 75, 0.30)"
+PLOTLY_GRID = "rgba(196, 196, 196, 0.16)"
 PLOTLY_PAPER = "rgba(0, 0, 0, 0)"
-PLOTLY_PLOT = "rgba(255, 255, 255, 0.60)"
+PLOTLY_PLOT = "rgba(5, 5, 5, 0.88)"
 
 
 st.set_page_config(
@@ -92,20 +95,20 @@ def inject_styles() -> None:
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
 
         :root {
-            --bg: #f7f1e8;
-            --bg-soft: #efe3d4;
+            --bg: #000000;
+            --bg-soft: #050505;
             --panel: rgba(255, 251, 246, 0.86);
             --panel-strong: rgba(255, 255, 255, 0.92);
             --line: rgba(43, 34, 25, 0.10);
             --line-strong: rgba(43, 34, 25, 0.18);
-            --ink: #1b1713;
-            --muted: #655d56;
-            --accent: #9a7141;
-            --accent-deep: #6a4826;
-            --teal: #365d58;
-            --rose: #8b574f;
-            --blue: #4e627d;
-            --gold: #b4935d;
+            --ink: #f5eaea;
+            --muted: #c4c4c4;
+            --accent: #e84b4b;
+            --accent-deep: #671515;
+            --teal: #9ad7b2;
+            --rose: #ff8a7f;
+            --blue: #a5b4d0;
+            --gold: #ffb86b;
             --shadow: 0 24px 80px rgba(89, 69, 43, 0.10);
         }
 
@@ -114,7 +117,7 @@ def inject_styles() -> None:
                 radial-gradient(circle at 0% 0%, rgba(198, 124, 61, 0.14), transparent 26%),
                 radial-gradient(circle at 88% 12%, rgba(29, 107, 103, 0.12), transparent 24%),
                 radial-gradient(circle at 50% 100%, rgba(80, 109, 154, 0.08), transparent 22%),
-                linear-gradient(180deg, #faf6f0 0%, #f6f0e8 45%, #efe6da 100%);
+                linear-gradient(180deg, #000000 0%, #050505 45%, #160303 100%);
             color: var(--ink);
         }
 
@@ -364,15 +367,15 @@ def inject_styles() -> None:
         }
 
         .accent-copper {
-            background: linear-gradient(90deg, #c67c3d, #e8b07b);
+            background: linear-gradient(90deg, #ff8a7f, #f5eaea);
         }
 
         .accent-teal {
-            background: linear-gradient(90deg, #1d6b67, #63a7a3);
+            background: linear-gradient(90deg, #9ad7b2, #c4c4c4);
         }
 
         .accent-rose {
-            background: linear-gradient(90deg, #c95a4d, #ec9a90);
+            background: linear-gradient(90deg, #e84b4b, #ff8a7f);
         }
 
         .quote-block {
@@ -458,8 +461,8 @@ def inject_styles() -> None:
         }
 
         [data-testid="stButton"] button[kind="primary"] {
-            background: linear-gradient(135deg, #18242d 0%, #2c3e4d 100%);
-            color: #fffdf8;
+            background: linear-gradient(135deg, #000000 0%, #671515 100%);
+            color: #f5eaea;
         }
 
         [data-testid="stDataFrame"] {
@@ -486,20 +489,20 @@ def inject_styles() -> None:
         }
 
         :root {
-            --bg: #f6f1e8;
-            --bg-soft: #eadfd1;
+            --bg: #000000;
+            --bg-soft: #050505;
             --panel: rgba(255, 255, 255, 0.68);
             --panel-strong: rgba(255, 255, 255, 0.82);
             --line: rgba(12, 26, 38, 0.10);
             --line-strong: rgba(12, 26, 38, 0.18);
-            --ink: #0f2232;
-            --muted: #5d6772;
-            --accent: #b47b38;
-            --accent-deep: #88551b;
-            --teal: #1f6e68;
-            --rose: #c56b55;
-            --blue: #3f5f86;
-            --gold: #cfac6b;
+            --ink: #f5eaea;
+            --muted: #c4c4c4;
+            --accent: #e84b4b;
+            --accent-deep: #671515;
+            --teal: #9ad7b2;
+            --rose: #ff8a7f;
+            --blue: #a5b4d0;
+            --gold: #ffb86b;
             --shadow: 0 28px 90px rgba(15, 34, 50, 0.12);
             --shadow-soft: 0 18px 45px rgba(15, 34, 50, 0.09);
         }
@@ -509,7 +512,7 @@ def inject_styles() -> None:
                 radial-gradient(circle at 0% 0%, rgba(197, 107, 85, 0.16), transparent 28%),
                 radial-gradient(circle at 100% 12%, rgba(31, 110, 104, 0.17), transparent 25%),
                 radial-gradient(circle at 40% 100%, rgba(63, 95, 134, 0.14), transparent 25%),
-                linear-gradient(135deg, #fbf8f2 0%, #f6efe5 48%, #ece1d2 100%);
+                linear-gradient(135deg, #000000 0%, #050505 48%, #160303 100%);
             color: var(--ink);
         }
 
@@ -648,7 +651,7 @@ def inject_styles() -> None:
         }
 
         [data-testid="stButton"] button[kind="primary"] {
-            background: linear-gradient(135deg, #0f2232 0%, #244059 100%);
+            background: linear-gradient(135deg, #f5eaea 0%, #671515 100%);
         }
 
         [data-testid="stPlotlyChart"],
@@ -682,7 +685,7 @@ def inject_styles() -> None:
         }
 
         .accent-blue {
-            background: linear-gradient(90deg, #3f5f86, #85a6d0);
+            background: linear-gradient(90deg, #a5b4d0, #a5b4d0);
         }
 
         .signal-grid {
@@ -709,7 +712,7 @@ def inject_styles() -> None:
             width: 44%;
             height: 4px;
             border-radius: 999px;
-            background: var(--signal-accent, linear-gradient(90deg, #1f6e68, #cfac6b));
+            background: var(--signal-accent, linear-gradient(90deg, #9ad7b2, #ffb86b));
         }
 
         .signal-card::after {
@@ -748,19 +751,19 @@ def inject_styles() -> None:
         }
 
         .tone-teal {
-            --signal-accent: linear-gradient(90deg, #1f6e68, #6bc6b5);
+            --signal-accent: linear-gradient(90deg, #9ad7b2, #9ad7b2);
         }
 
         .tone-copper {
-            --signal-accent: linear-gradient(90deg, #b47b38, #dfb271);
+            --signal-accent: linear-gradient(90deg, #e84b4b, #ffb86b);
         }
 
         .tone-rose {
-            --signal-accent: linear-gradient(90deg, #c56b55, #f0a08b);
+            --signal-accent: linear-gradient(90deg, #ff8a7f, #ff8a7f);
         }
 
         .tone-blue {
-            --signal-accent: linear-gradient(90deg, #3f5f86, #89a8cf);
+            --signal-accent: linear-gradient(90deg, #a5b4d0, #a5b4d0);
         }
 
         .orbital-shell {
@@ -877,12 +880,12 @@ def inject_styles() -> None:
             font-size: 2.7rem;
             line-height: 0.95;
             letter-spacing: -0.05em;
-            color: #0f2232;
+            color: #f5eaea;
         }
 
         .orbital-core-copy {
             margin: 0;
-            color: #5b6772;
+            color: #c4c4c4;
             font-size: 0.92rem;
             line-height: 1.6;
         }
@@ -1042,6 +1045,288 @@ def inject_styles() -> None:
         unsafe_allow_html=True,
     )
 
+    yor_css = """
+    <style>
+    :root {
+        --bg: __VOID__;
+        --bg-soft: __PANEL__;
+        --panel: color-mix(in srgb, __PANEL__ 94%, transparent);
+        --panel-strong: color-mix(in srgb, __PANEL__ 98%, transparent);
+        --line: color-mix(in srgb, __CRIMSON__ 26%, transparent);
+        --line-strong: color-mix(in srgb, __SIGNAL__ 52%, transparent);
+        --ink: __PAPER__;
+        --muted: __MUTED__;
+        --accent: __CRIMSON__;
+        --accent-deep: __SIGNAL__;
+        --teal: __POSITIVE__;
+        --rose: __SIGNAL__;
+        --blue: __BLUEPRINT__;
+        --gold: __WARNING__;
+        --shadow: 0 28px 90px rgba(0, 0, 0, 0.72);
+        --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.58);
+    }
+
+    .stApp {
+        background:
+            radial-gradient(circle at 0% 0%, color-mix(in srgb, __CRIMSON__ 20%, transparent), transparent 27%),
+            radial-gradient(circle at 100% 12%, color-mix(in srgb, __DEEP__ 34%, transparent), transparent 25%),
+            radial-gradient(circle at 42% 100%, color-mix(in srgb, __SIGNAL__ 9%, transparent), transparent 24%),
+            linear-gradient(135deg, __VOID__ 0%, __PANEL__ 52%, #160303 100%);
+        color: var(--ink);
+    }
+
+    html, body, [class*="css"], [data-testid="stAppViewContainer"] * {
+        font-family: "DM Mono", monospace;
+    }
+
+    h1, h2, h3, .hero-title, .section-title, .metric-value, .panel-title, .note-value,
+    .stat-number, .signal-value, .orbital-core-value, .scene-tile strong {
+        font-family: "Cormorant Garamond", serif !important;
+    }
+
+    .block-container {
+        max-width: 1380px;
+        padding-top: 1.1rem;
+        padding-bottom: 5rem;
+    }
+
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, __VOID__ 0%, __PANEL__ 100%);
+        border-right: 1px solid var(--line);
+    }
+
+    [data-testid="stSidebar"] * {
+        color: var(--ink);
+    }
+
+    header[data-testid="stHeader"], [data-testid="stToolbar"] {
+        background: __VOID__ !important;
+    }
+
+    [data-baseweb="select"] > div,
+    [data-baseweb="input"] > div,
+    [data-baseweb="base-input"] {
+        background: var(--panel) !important;
+        border-color: var(--line-strong) !important;
+        color: var(--ink) !important;
+    }
+
+    [data-baseweb="select"] input,
+    [data-baseweb="select"] span,
+    [data-baseweb="input"] input,
+    [data-baseweb="base-input"] input {
+        color: var(--ink) !important;
+    }
+
+    [data-baseweb="popover"], [data-baseweb="menu"], [role="listbox"] {
+        background: __PANEL__ !important;
+        border: 1px solid var(--line-strong) !important;
+        color: var(--ink) !important;
+    }
+
+    [data-baseweb="menu"] li, [role="option"] {
+        background: __PANEL__ !important;
+        color: var(--ink) !important;
+    }
+
+    [data-baseweb="menu"] li:hover, [role="option"][aria-selected="true"] {
+        background: color-mix(in srgb, __DEEP__ 62%, transparent) !important;
+    }
+
+    [data-testid="stSlider"] [role="slider"] {
+        background: var(--accent) !important;
+        border-color: var(--ink) !important;
+    }
+
+    [data-testid="stSlider"] [data-baseweb="slider"] > div:first-child {
+        background: color-mix(in srgb, __MUTED__ 24%, transparent) !important;
+    }
+
+    .sidebar-brand, .hero-note, .insight-pill, .stat-item, .metric-card, .panel-card, .quote-block,
+    .signal-card, [data-testid="stExpander"], [data-testid="stDataFrame"] {
+        background: linear-gradient(180deg, color-mix(in srgb, __PANEL__ 98%, transparent), color-mix(in srgb, __VOID__ 88%, transparent));
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow-soft);
+    }
+
+    .sidebar-brand {
+        border-radius: 7px;
+        border-left: 3px solid var(--accent);
+    }
+
+    .sidebar-kicker, .section-kicker, .eyebrow, .masthead-strip, .signal-label, .stat-label, .metric-label,
+    .note-label, .orbital-caption, .orbital-core-kicker, .scene-tile span, .quote-source {
+        color: var(--accent-deep) !important;
+        font-family: "DM Mono", monospace !important;
+        letter-spacing: 0.16em;
+    }
+
+    .sidebar-title, .hero-title, .section-title, .panel-title, .note-value, .stat-number, .metric-value,
+    .signal-value, .quote-text, .orbital-core-value {
+        color: var(--ink) !important;
+    }
+
+    .sidebar-copy, .section-copy, .hero-copy, .note-copy, .stat-copy, .metric-detail, .panel-copy,
+    .signal-copy, .quote-source, .orbital-core-copy, .scene-tile p {
+        color: var(--muted) !important;
+    }
+
+    .hero-card {
+        border-radius: 7px;
+        border: 1px solid var(--line-strong);
+        border-left: 5px solid var(--accent);
+        background:
+            radial-gradient(circle at 100% 0%, color-mix(in srgb, __DEEP__ 42%, transparent), transparent 38%),
+            linear-gradient(180deg, color-mix(in srgb, __PANEL__ 97%, transparent), color-mix(in srgb, __VOID__ 94%, transparent));
+        box-shadow: 0 36px 120px rgba(0, 0, 0, 0.82);
+    }
+
+    .hero-card::before {
+        border-radius: 5px;
+        border-color: color-mix(in srgb, __CRIMSON__ 38%, transparent);
+    }
+
+    .masthead-strip {
+        border-bottom-color: var(--line);
+    }
+
+    .hero-note, .insight-pill, .stat-item, .metric-card, .panel-card, .quote-block, .signal-card {
+        border-radius: 7px;
+    }
+
+    .hero-note, .insight-pill {
+        background: color-mix(in srgb, __PANEL__ 88%, transparent);
+    }
+
+    .insight-pill {
+        color: var(--ink) !important;
+        border-color: var(--line);
+    }
+
+    .metric-accent, .panel-accent, .section-rule {
+        background: linear-gradient(90deg, var(--accent), var(--accent-deep)) !important;
+    }
+
+    .accent-copper, .accent-teal, .accent-rose {
+        background: linear-gradient(90deg, var(--accent), var(--accent-deep)) !important;
+    }
+
+    .quote-mark {
+        color: color-mix(in srgb, __SIGNAL__ 48%, transparent) !important;
+    }
+
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 0.35rem;
+        background: color-mix(in srgb, __PANEL__ 92%, transparent);
+        border: 1px solid var(--line);
+        border-radius: 7px;
+    }
+
+    .stTabs [data-baseweb="tab"] {
+        min-height: 44px;
+        border-radius: 5px;
+        color: var(--muted);
+        font-family: "DM Mono", monospace;
+    }
+
+    .stTabs [aria-selected="true"] {
+        background: linear-gradient(135deg, color-mix(in srgb, __CRIMSON__ 32%, transparent), color-mix(in srgb, __DEEP__ 42%, transparent));
+        color: var(--ink);
+        box-shadow: inset 0 -2px 0 var(--accent);
+    }
+
+    [data-testid="stButton"] button, [data-testid="baseButton-secondary"] {
+        min-height: 44px;
+        border-radius: 5px;
+        border: 1px solid var(--line-strong);
+        background: var(--panel);
+        color: var(--ink);
+        font-family: "DM Mono", monospace;
+        box-shadow: var(--shadow-soft);
+    }
+
+    [data-testid="stButton"] button:hover, [data-testid="baseButton-secondary"]:hover {
+        border-color: var(--accent);
+        color: var(--ink);
+    }
+
+    [data-testid="stButton"] button[kind="primary"] {
+        background: linear-gradient(135deg, __DEEP__ 0%, __CRIMSON__ 100%);
+        color: var(--ink);
+    }
+
+    [data-testid="stDataFrame"], [data-testid="stExpander"] {
+        overflow: hidden;
+        border-radius: 7px;
+    }
+
+    .orbital-stage {
+        border-radius: 7px;
+        border-color: var(--line-strong);
+        background:
+            radial-gradient(circle at 30% 28%, color-mix(in srgb, __CRIMSON__ 26%, transparent), transparent 27%),
+            radial-gradient(circle at 76% 35%, color-mix(in srgb, __DEEP__ 45%, transparent), transparent 25%),
+            linear-gradient(180deg, color-mix(in srgb, __PANEL__ 88%, transparent) 0%, __VOID__ 100%);
+        box-shadow: 0 40px 120px rgba(0, 0, 0, 0.86);
+    }
+
+    .orbital-stage::before {
+        border-radius: 5px;
+        border-color: var(--line);
+    }
+
+    .orbital-glow {
+        background: radial-gradient(circle, color-mix(in srgb, __SIGNAL__ 28%, transparent), transparent 68%);
+    }
+
+    .orbital-ring {
+        border-color: color-mix(in srgb, __SIGNAL__ 36%, transparent);
+    }
+
+    .ring-b { border-color: color-mix(in srgb, __CRIMSON__ 50%, transparent); }
+    .ring-c { border-color: color-mix(in srgb, __DEEP__ 72%, transparent); }
+
+    .orbital-core {
+        border-radius: 7px;
+        border-color: var(--line-strong);
+        background: linear-gradient(180deg, color-mix(in srgb, __PANEL__ 98%, transparent), color-mix(in srgb, __DEEP__ 48%, transparent));
+        box-shadow: 0 28px 80px rgba(0, 0, 0, 0.72);
+    }
+
+    .scene-tile {
+        border-radius: 5px;
+        border-color: color-mix(in srgb, __SIGNAL__ 28%, transparent);
+        background: linear-gradient(180deg, color-mix(in srgb, __DEEP__ 55%, transparent), color-mix(in srgb, __PANEL__ 84%, transparent));
+        color: var(--ink);
+    }
+
+    .scene-tile strong { color: var(--ink); }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.001ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.001ms !important;
+            scroll-behavior: auto !important;
+        }
+    }
+    </style>
+    """
+    yor_css = (
+        yor_css
+        .replace("__VOID__", YOR_COLORS["void"])
+        .replace("__PANEL__", YOR_COLORS["panel"])
+        .replace("__CRIMSON__", YOR_COLORS["crimson"])
+        .replace("__DEEP__", YOR_COLORS["deepCrimson"])
+        .replace("__SIGNAL__", YOR_COLORS["signal"])
+        .replace("__PAPER__", YOR_COLORS["paper"])
+        .replace("__MUTED__", YOR_COLORS["muted"])
+        .replace("__POSITIVE__", SEMANTIC_COLORS["positive"])
+        .replace("__BLUEPRINT__", SEMANTIC_COLORS["blueprint"])
+        .replace("__WARNING__", SEMANTIC_COLORS["warning"])
+    )
+    st.markdown(yor_css, unsafe_allow_html=True)
+
 
 def outputs_exist() -> bool:
     return all((OUTPUTS_DIR / name).exists() for name in REQUIRED_OUTPUTS)
@@ -1133,13 +1418,7 @@ def panel_card(title: str, copy: str, accent: str) -> str:
 
 def stat_strip(items: list[tuple[str, str, str]]) -> str:
     blocks = "".join(
-        f"""
-        <div class="stat-item">
-            <div class="stat-label">{label}</div>
-            <div class="stat-number">{value}</div>
-            <div class="stat-copy">{copy}</div>
-        </div>
-        """
+        f'<div class="stat-item"><div class="stat-label">{label}</div><div class="stat-number">{value}</div><div class="stat-copy">{copy}</div></div>'
         for label, value, copy in items
     )
     return f'<div class="stat-strip">{blocks}</div>'
@@ -1147,13 +1426,7 @@ def stat_strip(items: list[tuple[str, str, str]]) -> str:
 
 def signal_grid(items: list[tuple[str, str, str, str]]) -> str:
     cards = "".join(
-        f"""
-        <div class="signal-card tone-{tone}">
-            <div class="signal-label">{label}</div>
-            <div class="signal-value">{value}</div>
-            <p class="signal-copy">{copy}</p>
-        </div>
-        """
+        f'<div class="signal-card tone-{tone}"><div class="signal-label">{label}</div><div class="signal-value">{value}</div><p class="signal-copy">{copy}</p></div>'
         for label, value, copy, tone in items
     )
     return f'<div class="signal-grid">{cards}</div>'
@@ -1167,32 +1440,25 @@ def orbital_scene(
 ) -> str:
     tile_classes = ["tile-a", "tile-b", "tile-c", "tile-d"]
     tile_markup = "".join(
-        f"""
-        <div class="scene-tile {tile_class}">
-            <span>{label}</span>
-            <strong>{value}</strong>
-            <p>{copy}</p>
-        </div>
-        """
+        f'<div class="scene-tile {tile_class}"><span>{label}</span><strong>{value}</strong><p>{copy}</p></div>'
         for tile_class, (label, value, copy) in zip(tile_classes, tiles)
     )
-    return f"""
-    <div class="orbital-shell">
-        <div class="orbital-caption">3D Signal Vault</div>
-        <div class="orbital-stage">
-            <div class="orbital-glow"></div>
-            <div class="orbital-ring ring-a"></div>
-            <div class="orbital-ring ring-b"></div>
-            <div class="orbital-ring ring-c"></div>
-            <div class="orbital-core">
-                <div class="orbital-core-kicker">{primary_label}</div>
-                <div class="orbital-core-value">{primary_value}</div>
-                <p class="orbital-core-copy">{primary_copy}</p>
-            </div>
-            {tile_markup}
-        </div>
-    </div>
-    """
+    return (
+        '<div class="orbital-shell">'
+        '<div class="orbital-caption">3D Signal Vault</div>'
+        '<div class="orbital-stage">'
+        '<div class="orbital-glow"></div>'
+        '<div class="orbital-ring ring-a"></div>'
+        '<div class="orbital-ring ring-b"></div>'
+        '<div class="orbital-ring ring-c"></div>'
+        '<div class="orbital-core">'
+        f'<div class="orbital-core-kicker">{primary_label}</div>'
+        f'<div class="orbital-core-value">{primary_value}</div>'
+        f'<p class="orbital-core-copy">{primary_copy}</p>'
+        '</div>'
+        f'{tile_markup}'
+        '</div></div>'
+    )
 
 
 def quote_block(quote: str, source: str) -> str:
@@ -1223,7 +1489,7 @@ def resolve_archetype_colors(values: list[str]) -> dict[str, str]:
     resolved: dict[str, str] = {}
     for value in values:
         base = value.split(" (")[0]
-        resolved[value] = ARCHETYPE_COLORS.get(base, "#7D878E")
+        resolved[value] = ARCHETYPE_COLORS.get(base, YOR_COLORS["muted"])
     return resolved
 
 
@@ -1231,8 +1497,8 @@ def base_layout(fig: go.Figure) -> go.Figure:
     fig.update_layout(
         paper_bgcolor=PLOTLY_PAPER,
         plot_bgcolor=PLOTLY_PLOT,
-        font={"family": "Manrope, sans-serif", "color": "#0F2232", "size": 13},
-        title={"x": 0.02, "font": {"family": "Cormorant Garamond, serif", "size": 25, "color": "#0F2232"}},
+        font={"family": "DM Mono, monospace", "color": YOR_COLORS["paper"], "size": 13},
+        title={"x": 0.02, "font": {"family": "Cormorant Garamond, serif", "size": 25, "color": YOR_COLORS["paper"]}},
         margin={"l": 18, "r": 18, "t": 74, "b": 18},
         legend={
             "orientation": "h",
@@ -1240,11 +1506,11 @@ def base_layout(fig: go.Figure) -> go.Figure:
             "y": 1.02,
             "xanchor": "left",
             "x": 0,
-            "bgcolor": "rgba(255, 255, 255, 0.56)",
-            "bordercolor": "rgba(15, 34, 50, 0.08)",
+            "bgcolor": "rgba(5, 5, 5, 0.94)",
+            "bordercolor": "rgba(232, 75, 75, 0.30)",
             "borderwidth": 1,
         },
-        hoverlabel={"bgcolor": "#FFF7EF", "font_size": 13, "font_family": "Manrope"},
+        hoverlabel={"bgcolor": YOR_COLORS["panel"], "font_color": YOR_COLORS["paper"], "font_size": 13, "font_family": "DM Mono"},
     )
     fig.update_xaxes(
         showline=True,
@@ -1270,13 +1536,13 @@ def build_sentiment_overview(perf: pd.DataFrame) -> go.Figure:
     )
     ordered = ordered.sort_values("classification")
 
-    colors = [SENTIMENT_COLORS.get(name, "#7D878E") for name in ordered["classification"]]
+    colors = [SENTIMENT_COLORS.get(name, YOR_COLORS["muted"]) for name in ordered["classification"]]
     figure = make_subplots(specs=[[{"secondary_y": True}]])
     figure.add_bar(
         x=ordered["classification"],
         y=ordered["median_pnl"],
         name="Median PnL",
-        marker={"color": colors, "line": {"color": "#FFFFFF", "width": 0.5}},
+        marker={"color": colors, "line": {"color": YOR_COLORS["paper"], "width": 0.5}},
         hovertemplate="%{x}<br>Median PnL: $%{y:,.0f}<extra></extra>",
     )
     figure.add_scatter(
@@ -1284,15 +1550,15 @@ def build_sentiment_overview(perf: pd.DataFrame) -> go.Figure:
         y=ordered["win_rate"] * 100,
         name="Realized Win Rate",
         mode="lines+markers",
-        line={"color": "#18242D", "width": 3},
-        marker={"size": 10, "color": "#F6F0E8", "line": {"color": "#18242D", "width": 2}},
+        line={"color": YOR_COLORS["signal"], "width": 3},
+        marker={"size": 10, "color": YOR_COLORS["void"], "line": {"color": YOR_COLORS["signal"], "width": 2}},
         hovertemplate="%{x}<br>Win Rate: %{y:.1f}%<extra></extra>",
         secondary_y=True,
     )
     figure.add_hline(
         y=0,
         line_dash="dot",
-        line_color="rgba(24, 36, 45, 0.32)",
+        line_color="rgba(255, 138, 127, 0.42)",
         secondary_y=False,
     )
     figure.update_yaxes(title_text="Median Daily PnL (USD)", tickprefix="$", secondary_y=False)
@@ -1334,7 +1600,7 @@ def build_behavior_scatter(behavior: pd.DataFrame) -> go.Figure:
     figure.add_hline(
         y=50,
         line_dash="dot",
-        line_color="rgba(24, 36, 45, 0.28)",
+        line_color="rgba(255, 138, 127, 0.34)",
     )
     figure.update_layout(title="Sentiment shifts ticket size and execution style")
     figure.update_xaxes(title="Median Ticket Size (USD)", tickprefix="$")
@@ -1350,7 +1616,7 @@ def build_event_timeline(event_summary: pd.DataFrame) -> go.Figure:
         x=frame["date"],
         y=frame["total_pnl"],
         name="Total PnL",
-        marker={"color": [SENTIMENT_COLORS.get(label, "#7D878E") for label in frame["classification"]]},
+        marker={"color": [SENTIMENT_COLORS.get(label, YOR_COLORS["muted"]) for label in frame["classification"]]},
         hovertemplate="%{x|%Y-%m-%d}<br>Total PnL: $%{y:,.0f}<extra></extra>",
     )
     figure.add_scatter(
@@ -1360,8 +1626,8 @@ def build_event_timeline(event_summary: pd.DataFrame) -> go.Figure:
         mode="lines+markers+text",
         text=frame["classification"],
         textposition="top center",
-        line={"color": "#18242D", "width": 3},
-        marker={"size": 10, "color": "#F6F0E8", "line": {"color": "#18242D", "width": 2}},
+        line={"color": YOR_COLORS["signal"], "width": 3},
+        marker={"size": 10, "color": YOR_COLORS["void"], "line": {"color": YOR_COLORS["signal"], "width": 2}},
         hovertemplate="%{x|%Y-%m-%d}<br>Fear/Greed: %{y:.0f}<extra></extra>",
         secondary_y=True,
     )
@@ -1388,7 +1654,7 @@ def build_archetype_scatter(accounts: pd.DataFrame) -> go.Figure:
             "avg_trades_day": ":.2f",
         },
     )
-    figure.add_hline(y=0, line_dash="dot", line_color="rgba(24, 36, 45, 0.28)")
+    figure.add_hline(y=0, line_dash="dot", line_color="rgba(255, 138, 127, 0.34)")
     figure.update_layout(title="Trader DNA: ticket size, alpha, and operating tempo")
     figure.update_xaxes(title="Average Ticket Size (USD)", tickprefix="$")
     figure.update_yaxes(title="Mean Daily PnL", tickprefix="$")
@@ -1426,23 +1692,23 @@ def build_trader_constellation(accounts: pd.DataFrame) -> go.Figure:
     figure.update_traces(
         marker={
             "opacity": 0.95,
-            "line": {"color": "rgba(255, 255, 255, 0.68)", "width": 1.5},
+            "line": {"color": "rgba(245, 234, 234, 0.72)", "width": 1.5},
             "symbol": "circle",
         }
     )
     figure.update_layout(
         title="3D trader constellation: size, pace, and alpha in one room",
         paper_bgcolor=PLOTLY_PAPER,
-        font={"family": "Manrope, sans-serif", "color": "#0F2232", "size": 13},
-        hoverlabel={"bgcolor": "#FFF7EF", "font_size": 13, "font_family": "Manrope"},
+        font={"family": "DM Mono, monospace", "color": YOR_COLORS["paper"], "size": 13},
+        hoverlabel={"bgcolor": YOR_COLORS["panel"], "font_color": YOR_COLORS["paper"], "font_size": 13, "font_family": "DM Mono"},
         legend={
             "orientation": "h",
             "yanchor": "bottom",
             "y": 1.02,
             "xanchor": "left",
             "x": 0,
-            "bgcolor": "rgba(255, 255, 255, 0.56)",
-            "bordercolor": "rgba(15, 34, 50, 0.08)",
+            "bgcolor": "rgba(5, 5, 5, 0.94)",
+            "bordercolor": "rgba(232, 75, 75, 0.30)",
             "borderwidth": 1,
         },
         scene={
@@ -1453,25 +1719,25 @@ def build_trader_constellation(accounts: pd.DataFrame) -> go.Figure:
             "xaxis": {
                 "title": "Average Ticket Size (USD)",
                 "tickprefix": "$",
-                "gridcolor": "rgba(15, 34, 50, 0.12)",
-                "zerolinecolor": "rgba(15, 34, 50, 0.10)",
+                "gridcolor": "rgba(196, 196, 196, 0.16)",
+                "zerolinecolor": "rgba(232, 75, 75, 0.24)",
                 "showbackground": True,
-                "backgroundcolor": "rgba(15, 34, 50, 0.05)",
+                "backgroundcolor": "rgba(5, 5, 5, 0.72)",
             },
             "yaxis": {
                 "title": "Trades / Day",
-                "gridcolor": "rgba(15, 34, 50, 0.12)",
-                "zerolinecolor": "rgba(15, 34, 50, 0.10)",
+                "gridcolor": "rgba(196, 196, 196, 0.16)",
+                "zerolinecolor": "rgba(232, 75, 75, 0.24)",
                 "showbackground": True,
-                "backgroundcolor": "rgba(15, 34, 50, 0.04)",
+                "backgroundcolor": "rgba(5, 5, 5, 0.58)",
             },
             "zaxis": {
                 "title": "Mean Daily PnL",
                 "tickprefix": "$",
-                "gridcolor": "rgba(15, 34, 50, 0.12)",
-                "zerolinecolor": "rgba(15, 34, 50, 0.10)",
+                "gridcolor": "rgba(196, 196, 196, 0.16)",
+                "zerolinecolor": "rgba(232, 75, 75, 0.24)",
                 "showbackground": True,
-                "backgroundcolor": "rgba(15, 34, 50, 0.06)",
+                "backgroundcolor": "rgba(5, 5, 5, 0.66)",
             },
         },
         margin={"l": 0, "r": 0, "t": 74, "b": 0},
@@ -2040,7 +2306,7 @@ with tabs[2]:
                 "segment",
                 "mean_pnl",
                 "Ticket-size cohorts by mean daily PnL",
-                ["#506D9A", "#C6A15E", "#1D6B67"],
+                [SEMANTIC_COLORS["blueprint"], SEMANTIC_COLORS["warning"], SEMANTIC_COLORS["positive"]],
                 tickprefix="$",
             ),
             width="stretch",
@@ -2052,7 +2318,7 @@ with tabs[2]:
                 "segment",
                 "win_rate",
                 "Activity split by win rate",
-                ["#C67C3D", "#506D9A"],
+                [YOR_COLORS["signal"], SEMANTIC_COLORS["blueprint"]],
             ),
             width="stretch",
         )
@@ -2063,7 +2329,7 @@ with tabs[2]:
                 "segment",
                 "mean_pnl",
                 "Consistency cohorts by mean daily PnL",
-                ["#C95A4D", "#A6A39F", "#1D6B67"],
+                [YOR_COLORS["crimson"], YOR_COLORS["muted"], SEMANTIC_COLORS["positive"]],
                 tickprefix="$",
             ),
             width="stretch",

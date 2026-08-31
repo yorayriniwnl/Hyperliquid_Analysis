@@ -12,6 +12,7 @@ matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
+from matplotlib.colors import LinearSegmentedColormap
 from matplotlib.ticker import FuncFormatter
 import numpy as np
 import pandas as pd
@@ -29,6 +30,9 @@ ROOT = Path(__file__).resolve().parent
 DATA_DIR = ROOT / "data"
 OUTPUTS_DIR = ROOT / "outputs"
 CHARTS_DIR = ROOT / "charts"
+TOKENS = json.loads((ROOT / "design" / "yor-tokens.json").read_text(encoding="utf-8"))
+YOR_COLORS = TOKENS["color"]
+SEMANTIC_COLORS = TOKENS["semantic"]
 
 OUTPUTS_DIR.mkdir(exist_ok=True)
 CHARTS_DIR.mkdir(exist_ok=True)
@@ -70,25 +74,29 @@ SENTIMENT_ORDER = [
 ]
 
 SENTIMENT_COLORS = {
-    "Extreme Fear": "#C95A4D",
-    "Fear": "#C67C3D",
-    "Neutral": "#8A8E91",
-    "Greed": "#1D6B67",
-    "Extreme Greed": "#0E5D55",
+    "Extreme Fear": YOR_COLORS["deepCrimson"],
+    "Fear": YOR_COLORS["crimson"],
+    "Neutral": YOR_COLORS["muted"],
+    "Greed": SEMANTIC_COLORS["positive"],
+    "Extreme Greed": YOR_COLORS["signal"],
 }
 
 ARCHETYPE_COLORS = {
-    "Aggressive Takers": "#C95A4D",
-    "Patient Position Builders": "#1D6B67",
-    "Selective Rotators": "#506D9A",
-    "Impulse Scalpers": "#B4935D",
+    "Aggressive Takers": YOR_COLORS["crimson"],
+    "Patient Position Builders": SEMANTIC_COLORS["positive"],
+    "Selective Rotators": SEMANTIC_COLORS["blueprint"],
+    "Impulse Scalpers": SEMANTIC_COLORS["warning"],
 }
 
-BACKGROUND = "#F8F4EE"
-PANEL = "#FFFDFC"
-INK = "#231B17"
-MUTED = "#6A6158"
-GRID = "#D9CFC3"
+BACKGROUND = YOR_COLORS["void"]
+PANEL = YOR_COLORS["panel"]
+INK = YOR_COLORS["paper"]
+MUTED = YOR_COLORS["muted"]
+GRID = SEMANTIC_COLORS["grid"]
+YOR_HEATMAP = LinearSegmentedColormap.from_list(
+    "yor_signal_heat",
+    [YOR_COLORS["void"], YOR_COLORS["deepCrimson"], YOR_COLORS["crimson"], YOR_COLORS["signal"]],
+)
 
 plt.rcParams.update(
     {
@@ -893,7 +901,7 @@ def plot_performance(performance: pd.DataFrame, account_day: pd.DataFrame) -> No
         x="classification",
         y="daily_pnl",
         order=order,
-        color="#2F2B28",
+        color=YOR_COLORS["paper"],
         size=4.2,
         alpha=0.55,
         ax=axes[0],
@@ -910,7 +918,7 @@ def plot_performance(performance: pd.DataFrame, account_day: pd.DataFrame) -> No
         rate_frame.index,
         rate_frame["profit_day_rate"] * 100,
         color=[SENTIMENT_COLORS[label] for label in order],
-        edgecolor="#D6C9BB",
+        edgecolor=YOR_COLORS["deepCrimson"],
     )
     axes[1].axhline(50, color=MUTED, linestyle="--", linewidth=1)
     axes[1].set_title("Profit-day Rate")
@@ -921,7 +929,7 @@ def plot_performance(performance: pd.DataFrame, account_day: pd.DataFrame) -> No
         rate_frame.index,
         rate_frame["win_rate"] * 100,
         color=[SENTIMENT_COLORS[label] for label in order],
-        edgecolor="#D6C9BB",
+        edgecolor=YOR_COLORS["deepCrimson"],
     )
     axes[2].axhline(50, color=MUTED, linestyle="--", linewidth=1)
     axes[2].set_title("Realized Win Rate")
@@ -941,7 +949,7 @@ def plot_event_timeline(event_summary: pd.DataFrame) -> None:
     ax1.plot(
         event_summary["date"],
         event_summary["value"],
-        color="#1D6B67",
+        color=YOR_COLORS["signal"],
         linewidth=2.5,
         marker="o",
         label="Fear/Greed value",
@@ -970,7 +978,7 @@ def plot_event_timeline(event_summary: pd.DataFrame) -> None:
     ax1.set_ylim(0, max(100, event_summary["value"].max() + 10))
 
     handles = [
-        Line2D([0], [0], color="#1D6B67", linewidth=2.5, marker="o", label="Fear/Greed value"),
+        Line2D([0], [0], color=YOR_COLORS["signal"], linewidth=2.5, marker="o", label="Fear/Greed value"),
         bars,
     ]
     labels = ["Fear/Greed value", "Total PnL"]
@@ -1001,7 +1009,7 @@ def plot_behavior_fingerprint(behavior: pd.DataFrame) -> None:
             behavior["classification"],
             values,
             color=[SENTIMENT_COLORS[label] for label in behavior["classification"]],
-            edgecolor="#D6C9BB",
+            edgecolor=YOR_COLORS["deepCrimson"],
         )
         axis.set_title(title)
         axis.tick_params(axis="x", rotation=12)
@@ -1027,9 +1035,9 @@ def plot_event_coverage(merged: pd.DataFrame, event_summary: pd.DataFrame) -> No
     plt.figure(figsize=(11, 8))
     sns.heatmap(
         trade_counts,
-        cmap="YlGnBu",
+        cmap=YOR_HEATMAP,
         linewidths=0.35,
-        linecolor="#F3EADF",
+        linecolor=YOR_COLORS["deepCrimson"],
         cbar_kws={"label": "Trades"},
         yticklabels=short_index,
     )
@@ -1051,8 +1059,8 @@ def plot_segmentation(account: pd.DataFrame, outputs: dict[str, pd.DataFrame]) -
     axes[0, 0].bar(
         risk["segment"],
         risk["mean_pnl"],
-        color=["#506D9A", "#B4935D", "#1D6B67"],
-        edgecolor="#D6C9BB",
+        color=[SEMANTIC_COLORS["blueprint"], SEMANTIC_COLORS["warning"], SEMANTIC_COLORS["positive"]],
+        edgecolor=YOR_COLORS["deepCrimson"],
     )
     axes[0, 0].set_title("Ticket Size Segments by Mean PnL")
     axes[0, 0].yaxis.set_major_formatter(FuncFormatter(currency_formatter))
@@ -1061,8 +1069,8 @@ def plot_segmentation(account: pd.DataFrame, outputs: dict[str, pd.DataFrame]) -
     axes[0, 1].bar(
         activity["segment"],
         activity["mean_pnl"],
-        color=["#C67C3D", "#1D6B67"],
-        edgecolor="#D6C9BB",
+        color=[YOR_COLORS["signal"], SEMANTIC_COLORS["positive"]],
+        edgecolor=YOR_COLORS["deepCrimson"],
     )
     axes[0, 1].set_title("Activity Segments by Mean PnL")
     axes[0, 1].yaxis.set_major_formatter(FuncFormatter(currency_formatter))
@@ -1070,8 +1078,8 @@ def plot_segmentation(account: pd.DataFrame, outputs: dict[str, pd.DataFrame]) -
     axes[1, 0].bar(
         execution["segment"],
         execution["mean_pnl"],
-        color=["#C95A4D", "#1D6B67"],
-        edgecolor="#D6C9BB",
+        color=[YOR_COLORS["crimson"], SEMANTIC_COLORS["positive"]],
+        edgecolor=YOR_COLORS["deepCrimson"],
     )
     axes[1, 0].set_title("Execution Style by Mean PnL")
     axes[1, 0].yaxis.set_major_formatter(FuncFormatter(currency_formatter))
@@ -1080,8 +1088,8 @@ def plot_segmentation(account: pd.DataFrame, outputs: dict[str, pd.DataFrame]) -
     axes[1, 1].bar(
         consistency["segment"],
         consistency["mean_pnl"],
-        color=["#C95A4D", "#A6A39F", "#1D6B67"],
-        edgecolor="#D6C9BB",
+        color=[YOR_COLORS["crimson"], YOR_COLORS["muted"], SEMANTIC_COLORS["positive"]],
+        edgecolor=YOR_COLORS["deepCrimson"],
     )
     axes[1, 1].set_title("Consistency Segments by Mean PnL")
     axes[1, 1].yaxis.set_major_formatter(FuncFormatter(currency_formatter))
@@ -1101,7 +1109,7 @@ def plot_directional_bias(behavior: pd.DataFrame) -> None:
         behavior["classification"],
         behavior["long_ratio"] * 100,
         color=[SENTIMENT_COLORS[label] for label in behavior["classification"]],
-        edgecolor="#D6C9BB",
+        edgecolor=YOR_COLORS["deepCrimson"],
     )
     axes[0].axvline(50, color=MUTED, linestyle="--", linewidth=1)
     axes[0].set_title("Buy-side Share")
@@ -1111,7 +1119,7 @@ def plot_directional_bias(behavior: pd.DataFrame) -> None:
         behavior["classification"],
         behavior["close_share"] * 100,
         color=[SENTIMENT_COLORS[label] for label in behavior["classification"]],
-        edgecolor="#D6C9BB",
+        edgecolor=YOR_COLORS["deepCrimson"],
     )
     axes[1].set_title("Close-share")
     axes[1].set_xlabel("% closing trades")
@@ -1124,14 +1132,14 @@ def plot_archetypes(plot_frame: pd.DataFrame, account: pd.DataFrame) -> None:
     fig.suptitle("Chart 7 - Trader Archetypes", fontsize=15, y=1.02)
 
     for archetype, frame in plot_frame.groupby("archetype"):
-        color = ARCHETYPE_COLORS.get(archetype, "#506D9A")
+        color = ARCHETYPE_COLORS.get(archetype, YOR_COLORS["deepCrimson"])
         axes[0].scatter(
             frame["pc1"],
             frame["pc2"],
             s=85,
             alpha=0.85,
             color=color,
-            edgecolor="#F5F0E9",
+            edgecolor=YOR_COLORS["paper"],
             linewidth=0.8,
             label=archetype,
         )
@@ -1141,7 +1149,7 @@ def plot_archetypes(plot_frame: pd.DataFrame, account: pd.DataFrame) -> None:
             s=np.clip(frame["avg_trades_day"] / 20, 35, 220),
             alpha=0.82,
             color=color,
-            edgecolor="#F5F0E9",
+            edgecolor=YOR_COLORS["paper"],
             linewidth=0.8,
             label=archetype,
         )
@@ -1173,11 +1181,11 @@ def plot_cluster_profiles(cluster_profiles: pd.DataFrame) -> None:
     plt.figure(figsize=(11, 5))
     sns.heatmap(
         scaled,
-        cmap="YlGnBu",
+        cmap=YOR_HEATMAP,
         annot=frame[metrics].round(2),
         fmt="",
         linewidths=0.35,
-        linecolor="#F3EADF",
+        linecolor=YOR_COLORS["deepCrimson"],
         cbar_kws={"label": "Min-max normalized"},
     )
     plt.title("Chart 8 - Cluster Profiles")
@@ -1198,9 +1206,9 @@ def plot_robustness(paired: pd.DataFrame) -> None:
         return
 
     for _, row in paired.iterrows():
-        axes[0].plot([0, 1], [row["pnl_Fear"], row["pnl_Greed"]], color="#C7BBB0", linewidth=1.1, alpha=0.8)
-    axes[0].scatter(np.zeros(len(paired)), paired["pnl_Fear"], color="#C67C3D", s=40, label="Fear")
-    axes[0].scatter(np.ones(len(paired)), paired["pnl_Greed"], color="#1D6B67", s=40, label="Greed")
+        axes[0].plot([0, 1], [row["pnl_Fear"], row["pnl_Greed"]], color=YOR_COLORS["muted"], linewidth=1.1, alpha=0.8)
+    axes[0].scatter(np.zeros(len(paired)), paired["pnl_Fear"], color=YOR_COLORS["signal"], s=40, label="Fear")
+    axes[0].scatter(np.ones(len(paired)), paired["pnl_Greed"], color=SEMANTIC_COLORS["positive"], s=40, label="Greed")
     axes[0].set_xticks([0, 1], ["Fear", "Greed"])
     axes[0].set_title("Paired median PnL per account")
     axes[0].yaxis.set_major_formatter(FuncFormatter(currency_formatter))
@@ -1210,12 +1218,12 @@ def plot_robustness(paired: pd.DataFrame) -> None:
         axes[1].plot(
             [0, 1],
             [row["crossed_share_Fear"] * 100, row["crossed_share_Greed"] * 100],
-            color="#C7BBB0",
+            color=YOR_COLORS["muted"],
             linewidth=1.1,
             alpha=0.8,
         )
-    axes[1].scatter(np.zeros(len(paired)), paired["crossed_share_Fear"] * 100, color="#C67C3D", s=40)
-    axes[1].scatter(np.ones(len(paired)), paired["crossed_share_Greed"] * 100, color="#1D6B67", s=40)
+    axes[1].scatter(np.zeros(len(paired)), paired["crossed_share_Fear"] * 100, color=YOR_COLORS["signal"], s=40)
+    axes[1].scatter(np.ones(len(paired)), paired["crossed_share_Greed"] * 100, color=SEMANTIC_COLORS["positive"], s=40)
     axes[1].set_xticks([0, 1], ["Fear", "Greed"])
     axes[1].set_title("Paired crossed-share per account")
     axes[1].set_ylabel("Crossed share (%)")
@@ -1234,8 +1242,8 @@ def plot_strategy_playbook(strategy: pd.DataFrame, execution_threshold: float, g
         axes[0].bar(
             all_days["rule"],
             all_days["mean_pnl"],
-            color=["#1D6B67" if "<=" in rule else "#C95A4D" for rule in all_days["rule"]],
-            edgecolor="#D6C9BB",
+            color=[SEMANTIC_COLORS["positive"] if "<=" in rule else YOR_COLORS["crimson"] for rule in all_days["rule"]],
+            edgecolor=YOR_COLORS["deepCrimson"],
         )
         axes[0].set_title(f"Execution discipline split at crossed share {execution_threshold:.2f}")
         axes[0].set_ylabel("Mean daily PnL")
@@ -1246,8 +1254,8 @@ def plot_strategy_playbook(strategy: pd.DataFrame, execution_threshold: float, g
         axes[1].bar(
             greed_days["rule"],
             greed_days["median_pnl"],
-            color=["#1D6B67" if "<=" in rule else "#C95A4D" for rule in greed_days["rule"]],
-            edgecolor="#D6C9BB",
+            color=[SEMANTIC_COLORS["positive"] if "<=" in rule else YOR_COLORS["crimson"] for rule in greed_days["rule"]],
+            edgecolor=YOR_COLORS["deepCrimson"],
         )
         axes[1].set_title(f"Greed-day ticket sizing split at {format_big_currency(greed_threshold)}")
         axes[1].set_ylabel("Median daily PnL")
@@ -1265,7 +1273,7 @@ def plot_drawdowns(account: pd.DataFrame) -> None:
         data=account,
         x="risk_segment",
         y="max_drawdown",
-        palette=["#506D9A", "#B4935D", "#1D6B67"],
+        palette=[SEMANTIC_COLORS["blueprint"], SEMANTIC_COLORS["warning"], SEMANTIC_COLORS["positive"]],
         ax=axes[0],
         showfliers=False,
     )
@@ -1276,17 +1284,17 @@ def plot_drawdowns(account: pd.DataFrame) -> None:
     axes[0].tick_params(axis="x", rotation=10)
 
     palette = {
-        "Patient Executor": "#1D6B67",
-        "Aggressive Taker": "#C95A4D",
+        "Patient Executor": SEMANTIC_COLORS["positive"],
+        "Aggressive Taker": YOR_COLORS["crimson"],
     }
     for segment, frame in account.groupby("execution_segment"):
         axes[1].scatter(
             frame["max_drawdown"],
             frame["mean_pnl"],
             s=np.clip(frame["avg_trades_day"] / 20, 40, 220),
-            color=palette.get(segment, "#506D9A"),
+            color=palette.get(segment, YOR_COLORS["deepCrimson"]),
             alpha=0.8,
-            edgecolor="#F5F0E9",
+            edgecolor=YOR_COLORS["paper"],
             linewidth=0.8,
             label=segment,
         )
