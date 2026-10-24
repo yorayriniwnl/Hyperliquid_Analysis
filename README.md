@@ -16,6 +16,23 @@ Hyperliquid Signal Atlas is an evidence-first research project that joins a Bitc
 
 The repository is deliberately framed as an event study. The two source files overlap on six calendar dates, so the results describe those observed windows; they are not a continuous daily backtest, a causal market model, or financial advice.
 
+<!-- YOR REDLINE / EXPERIENCE V2 -->
+
+<a id="system-map"></a>
+## System map
+
+<div align="center"><picture><source media="(max-width: 600px)" srcset="docs/yor-redline-system-mobile.svg"/><img src="docs/yor-redline-system.svg" width="100%" alt="Research signal atlas: Ingest two datasets to Join calendar days to Analyze account-days to Explore comparisons"/></picture></div>
+
+| Project signal | Documented scope |
+| :--- | :--- |
+| **Current maturity** | LOCAL RESEARCH / NO LIVE TRADING |
+| **Technical focus** | Fear/Greed time series, trader export matching, account-day analysis, and descriptive comparisons. |
+| **Evidence boundary** | The documented source overlap is limited and supports descriptive study, not causal trading conclusions. |
+
+**Navigate:** [What the checked-in pipeline currently measures](#what-the-checked-in-pipeline-currently-measures) · [The measured read](#the-measured-read) · [Run locally](#run-locally) · [Evidence map](#evidence-map) · [Limitations and safety](#limitations-and-safety) · [Provenance](#provenance)
+
+<!-- END YOR REDLINE / EXPERIENCE V2 -->
+
 ## What the checked-in pipeline currently measures
 
 | Measure | Verified value |
